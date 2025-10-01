@@ -76,7 +76,7 @@ async function init() {
 
       const filteredArticles = articles.filter((item: Article) => {
         const category = urlParams.get("category");
-        if (!category) return;
+        if (!category) return item;
         return item.categories.includes(category);
       });
 
@@ -98,4 +98,3 @@ async function init() {
 }
 
 init();
-
