@@ -62,7 +62,9 @@ async function init() {
         const newsIndex = Number(urlParams.get("news"));
         const newsArticle = articles[newsIndex];
         navigateToNewsPage(newsArticle);
-      } else renderArticles(filteredArticles);
+        return;
+      }
+      renderArticles(filteredArticles);
     }
   } catch (err) {
     console.error(err);
