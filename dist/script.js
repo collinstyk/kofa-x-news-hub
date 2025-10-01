@@ -63,10 +63,6 @@ async function init() {
         const newsArticle = articles[newsIndex];
         navigateToNewsPage(newsArticle);
       } else renderArticles(filteredArticles);
-
-      window.addEventListener("popstate", function () {
-        renderArticles(filteredArticles);
-      });
     }
   } catch (err) {
     console.error(err);
