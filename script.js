@@ -73,7 +73,7 @@ async function init() {
 
       renderArticles(articles);
 
-      if (window.location.href.includes("news")) {
+      if (window.location.search.includes("news")) {
         const newsIndex = Number(urlParams.get("news"));
         const newsArticle = articles[newsIndex];
         navigateToNewsPage(newsArticle);
