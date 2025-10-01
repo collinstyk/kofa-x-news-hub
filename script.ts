@@ -86,11 +86,9 @@ async function init() {
         const newsIndex = Number(urlParams.get("news"));
         const newsArticle = articles[newsIndex];
         navigateToNewsPage(newsArticle);
-      } else renderArticles(filteredArticles);
-
-      window.addEventListener("popstate", function () {
-        renderArticles(filteredArticles);
-      });
+        return;
+      }
+      renderArticles(filteredArticles);
     }
   } catch (err) {
     console.error(err);
