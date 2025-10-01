@@ -6,4 +6,3 @@ export default function Category(content, onClick) {
   if (onClick) listItem.addEventListener("click", onClick);
   return listItem;
 }
-//# sourceMappingURL=Category.js.map

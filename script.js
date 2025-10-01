@@ -2,6 +2,7 @@ import ArticleCard from "./ArticleCard.js";
 import { BASE_URL } from "./constants.js";
 import Category from "./Category.js";
 import navigateToNewsPage from "./navigateToNewsPage.js";
+
 export function setSearchParams({ key, value }) {
   const url = new URL(window.location.href);
   const params = new URLSearchParams(url.search);
@@ -9,6 +10,7 @@ export function setSearchParams({ key, value }) {
   let newUrl = window.location.pathname + "?" + params.toString();
   window.location.href = newUrl;
 }
+
 function renderCategories(categories) {
   const categoryList = document.getElementById("categories");
   if (categoryList)
@@ -19,6 +21,7 @@ function renderCategories(categories) {
       categoryList.appendChild(listItem);
     });
 }
+
 function renderArticles(articles) {
   const articleCards = document.querySelector(".article-cards");
   while (articleCards.firstChild) {
@@ -33,24 +36,34 @@ function renderArticles(articles) {
     );
   });
 }
-async function init() {
+
+async function fetchData() {
   try {
     const res = await fetch(BASE_URL);
     const data = await res.json();
     const articles = data.data;
+    return articles;
+  } catch (err) {
+    throw new Error(err.message);
+  }
+}
+
+async function init() {
+  try {
+    const data = await fetchData();
     const urlParams = new URLSearchParams(window.location.search);
 
     if (data) {
       const categories = Array.from(
         new Set(
-          articles
+          data
             .filter((article) => article.categories !== undefined)
             .map((article) => article.categories)
             .reduce((acc, cur) => (acc = [...acc, ...cur]), [])
         )
       );
 
-      const filteredArticles = articles.filter((item) => {
+      const articles = data.filter((item) => {
         const category = urlParams.get("category");
         if (!category) return item;
         return item?.categories?.includes(category);
@@ -58,17 +71,18 @@ async function init() {
 
       renderCategories(categories);
 
+      renderArticles(articles);
+
       if (window.location.href.includes("news")) {
         const newsIndex = Number(urlParams.get("news"));
         const newsArticle = articles[newsIndex];
         navigateToNewsPage(newsArticle);
         return;
       }
-      renderArticles(filteredArticles);
     }
   } catch (err) {
     console.error(err);
   }
 }
+
 init();
-//# sourceMappingURL=script.js.map

@@ -35,4 +35,3 @@ function ArticleCard({
   return card;
 }
 export default ArticleCard;
-//# sourceMappingURL=ArticleCard.js.map
